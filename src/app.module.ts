@@ -1,12 +1,30 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PlayerController } from './player/player.controller';
+import { PlayerService } from './player/player.service';
+import { Player } from './player/player.entity';
 
 @Module({
-  imports: [ConfigModule.forRoot({ load: [configuration] })],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
+    TypeOrmModule.forFeature([Player]),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('database.host'),
+        port: configService.get<number>('database.port'),
+        database: configService.get<string>('database.name'),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        synchronize: false,
+        autoLoadEntities: true,
+      }),
+    }),
+  ],
+  controllers: [PlayerController],
+  providers: [PlayerService],
 })
 export class AppModule {}
