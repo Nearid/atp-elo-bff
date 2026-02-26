@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerController } from './player/player.controller';
 import { PlayerService } from './player/player.service';
 import { Player } from './player/player.entity';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Player } from './player/player.entity';
         database: configService.get<string>('database.name'),
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
+        namingStrategy: new SnakeNamingStrategy(),
         synchronize: false,
         autoLoadEntities: true,
       }),

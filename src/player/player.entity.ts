@@ -5,6 +5,6 @@ export class Player {
   @PrimaryColumn()
   id: string;
 
-  @Column({ name: 'full_name' })
+  @Column()
   fullName: string;
 }
