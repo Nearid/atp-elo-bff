@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { DrawPrediction } from './models/draw-prediction.model';
 import { DrawPredictionService } from './services/draw-prediction.service';
 import { PlayerDto } from '../player/player.dto';
@@ -12,12 +12,16 @@ export class DrawController {
   ) {}
 
   @Get('/:drawId/prediction')
-  getPrediction(@Param('drawId') drawId: number): Promise<DrawPrediction[]> {
+  getPrediction(
+    @Param('drawId', ParseIntPipe) drawId: number,
+  ): Promise<DrawPrediction[]> {
     return this.drawPredictionService.getDrawPredictions(drawId);
   }
 
   @Get('/:drawId/players')
-  async getPlayers(@Param('drawId') drawId: number): Promise<PlayerDto[]> {
+  async getPlayers(
+    @Param('drawId', ParseIntPipe) drawId: number,
+  ): Promise<PlayerDto[]> {
     return (await this.tournamentDrawService.getPlayers(drawId)).map(
       (player) => ({ id: player.id, fullName: player.fullName }) as PlayerDto,
     );

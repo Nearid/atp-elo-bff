@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { PlayerModule } from './player/player.module';
 import { DrawModule } from './draw/draw.module';
+import { EloratingModule } from './elorating/elorating.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DrawModule } from './draw/draw.module';
     }),
     PlayerModule,
     DrawModule,
+    EloratingModule,
   ],
 })
 export class AppModule {}

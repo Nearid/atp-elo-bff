@@ -1,16 +1,11 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { EloRating } from './elorating.entity';
 import { PlayerRatingDto } from '../draw/models/player-rating.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EloratingRepository {
-  constructor(
-    @InjectRepository(EloRating)
-    private repository: Repository<EloRating>,
-    private dataSource: DataSource,
-  ) {}
+  constructor(private dataSource: DataSource) {}
 
   findPlayersRating(playerIds: string[]): Promise<PlayerRatingDto[]> {
     const matches = this.dataSource
