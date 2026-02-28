@@ -21,5 +21,5 @@ export class TournamentDraw {
   firstRound: Round;
 
   @OneToMany(() => TournamentDrawMatch, (match) => match.tournamentDraw)
-  matches: TournamentDrawMatch[] = [];
+  matches: TournamentDrawMatch[];
 }

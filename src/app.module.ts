@@ -6,11 +6,23 @@ import { PlayerController } from './player/player.controller';
 import { PlayerService } from './player/player.service';
 import { Player } from './player/player.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { TournamentDrawRepository } from './draw/tournament-draw.repository';
+import { EloRating } from './elorating/elorating.entity';
+import { DrawPredictionService } from './draw/draw-prediction.service';
+import { DrawController } from './draw/draw.controller';
+import { EloratingRepository } from './elorating/elorating.repository';
+import { TournamentDraw } from './draw/tournament-draw.entity';
+import { TournamentDrawMatch } from './draw/tournament-draw-match.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
-    TypeOrmModule.forFeature([Player]),
+    TypeOrmModule.forFeature([
+      Player,
+      EloRating,
+      TournamentDraw,
+      TournamentDrawMatch,
+    ]),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -26,7 +38,12 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       }),
     }),
   ],
-  controllers: [PlayerController],
-  providers: [PlayerService],
+  controllers: [PlayerController, DrawController],
+  providers: [
+    PlayerService,
+    TournamentDrawRepository,
+    DrawPredictionService,
+    EloratingRepository,
+  ],
 })
 export class AppModule {}
