@@ -10,6 +10,7 @@ import { PlayerDrawPrediction } from './player-draw-prediction.model';
 
 export class DrawPredictionCalculator {
   private readonly BYE_PLAYER = 'BYE';
+  private readonly ELO_KFACTOR = 40;
 
   private readonly reachRoundProbMap = new Map<string, number>();
   private readonly winRoundProbMap = new Map<string, number>();
@@ -176,7 +177,7 @@ export class DrawPredictionCalculator {
     return this.opponentReachableInRound(playerId, prevRound)
       .map((opponent) => {
         const p = this.winProb(playerId, opponent, prevRound);
-        const eloIfBeatingOpponent = elo + 40 * (1 - p);
+        const eloIfBeatingOpponent = elo + this.ELO_KFACTOR * (1 - p);
         return (
           eloIfBeatingOpponent * this.getReachRoundProb(opponent, prevRound)
         ); // warning : java use computeReach instead of getReach
@@ -303,7 +304,7 @@ export class DrawPredictionCalculator {
   ): number {
     const expectedScore =
       1 / (1 + Math.pow(10, (opponentRating - playerRating) / 400));
-    return playerRating + 40 * (1 - expectedScore);
+    return playerRating + this.ELO_KFACTOR * (1 - expectedScore);
   }
 
   private computeElo(globalElo: number, surfaceElo: number) {
