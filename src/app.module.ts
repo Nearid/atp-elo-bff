@@ -2,29 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Player } from './player/player.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TournamentDrawRepository } from './draw/repositories/tournament-draw.repository';
-import { EloRating } from './elorating/elorating.entity';
-import { DrawPredictionService } from './draw/services/draw-prediction.service';
-import { DrawController } from './draw/draw.controller';
-import { EloratingRepository } from './elorating/elorating.repository';
-import { TournamentDraw } from './draw/entities/tournament-draw.entity';
-import { TournamentDrawMatch } from './draw/entities/tournament-draw-match.entity';
-import { PlayerRepository } from './player/player.repository';
-import { PlayerService } from './player/player.service';
-import { TournamentDrawService } from './draw/services/tournament-draw.service';
-import { TournamentDrawMatchRepository } from './draw/repositories/tournament-draw-match.repository';
+import { PlayerModule } from './player/player.module';
+import { DrawModule } from './draw/draw.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
-    TypeOrmModule.forFeature([
-      Player,
-      EloRating,
-      TournamentDraw,
-      TournamentDrawMatch,
-    ]),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -39,16 +23,8 @@ import { TournamentDrawMatchRepository } from './draw/repositories/tournament-dr
         autoLoadEntities: true,
       }),
     }),
-  ],
-  controllers: [DrawController],
-  providers: [
-    PlayerService,
-    TournamentDrawRepository,
-    DrawPredictionService,
-    EloratingRepository,
-    PlayerRepository,
-    TournamentDrawService,
-    TournamentDrawMatchRepository,
+    PlayerModule,
+    DrawModule,
   ],
 })
 export class AppModule {}
