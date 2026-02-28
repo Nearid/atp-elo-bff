@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Round } from '../shared/enums/round.enum';
+import { Round } from '../../shared/enums/round.enum';
 import { TournamentDraw } from './tournament-draw.entity';
+import { Player } from '../../player/player.entity';
 
 @Entity()
 export class TournamentDrawMatch {
@@ -16,8 +17,14 @@ export class TournamentDrawMatch {
   @Column()
   player1Id: string;
 
+  @ManyToOne(() => Player)
+  player1: Player;
+
   @Column()
   player2Id: string;
+
+  @ManyToOne(() => Player)
+  player2: Player;
 
   @Column()
   winnerId: string;

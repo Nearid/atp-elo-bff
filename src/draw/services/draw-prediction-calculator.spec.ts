@@ -1,7 +1,7 @@
 import { DrawPredictionCalculator } from './draw-prediction-calculator';
-import { TournamentDraw } from './tournament-draw.entity';
-import { Round } from '../shared/enums/round.enum';
-import { PlayerDrawPrediction } from './player-draw-prediction.model';
+import { TournamentDraw } from '../entities/tournament-draw.entity';
+import { Round } from '../../shared/enums/round.enum';
+import { PlayerDrawPrediction } from '../models/player-draw-prediction.model';
 
 describe('DrawPredictionCalculator', () => {
   const PLAYER_A = 'A';

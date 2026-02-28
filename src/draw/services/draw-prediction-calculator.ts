@@ -2,11 +2,11 @@ import {
   getOrderedFrom,
   Round,
   sortByOrdinal,
-} from '../shared/enums/round.enum';
-import { TournamentDraw } from './tournament-draw.entity';
-import { DrawPrediction } from './draw-prediction.model';
-import { TournamentDrawMatch } from './tournament-draw-match.entity';
-import { PlayerDrawPrediction } from './player-draw-prediction.model';
+} from '../../shared/enums/round.enum';
+import { TournamentDraw } from '../entities/tournament-draw.entity';
+import { DrawPrediction } from '../models/draw-prediction.model';
+import { TournamentDrawMatch } from '../entities/tournament-draw-match.entity';
+import { PlayerDrawPrediction } from '../models/player-draw-prediction.model';
 
 export class DrawPredictionCalculator {
   private readonly BYE_PLAYER = 'BYE';

@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { Surface } from '../shared/enums/surface.enum';
-import { Round } from '../shared/enums/round.enum';
+import { Surface } from '../../shared/enums/surface.enum';
+import { Round } from '../../shared/enums/round.enum';
 import { TournamentDrawMatch } from './tournament-draw-match.entity';
 
 @Entity()

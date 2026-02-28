@@ -1,10 +1,10 @@
-import { TournamentDrawRepository } from './tournament-draw.repository';
-import { DrawPrediction } from './draw-prediction.model';
+import { TournamentDrawRepository } from '../repositories/tournament-draw.repository';
+import { DrawPrediction } from '../models/draw-prediction.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TournamentDraw } from './tournament-draw.entity';
-import { EloratingRepository } from '../elorating/elorating.repository';
-import { Surface } from '../shared/enums/surface.enum';
-import { PlayerRatingDto } from './player-rating.dto';
+import { TournamentDraw } from '../entities/tournament-draw.entity';
+import { EloratingRepository } from '../../elorating/elorating.repository';
+import { Surface } from '../../shared/enums/surface.enum';
+import { PlayerRatingDto } from '../models/player-rating.dto';
 import { DrawPredictionCalculator } from './draw-prediction-calculator';
 
 @Injectable()
@@ -24,10 +24,9 @@ export class DrawPredictionService {
       throw new NotFoundException();
     }
 
-    const playerIds = this.extractPlayerIds(draw);
-    const playerRatings = await this.eloRatingRepository.findPlayersRating(
-      Array.from(playerIds),
-    );
+    const playerIds = Array.from(this.extractPlayerIds(draw));
+    const playerRatings =
+      await this.eloRatingRepository.findPlayersRating(playerIds);
 
     const globalElos = new Map<string, number>();
     const surfaceElos = new Map<string, number>();
@@ -42,12 +41,11 @@ export class DrawPredictionService {
       globalElos,
       surfaceElos,
     );
-    const drawPreds = predCalculator.computeDrawPredictions();
-    drawPreds.push({
-      playerPredictions: predCalculator.computeLatest(),
-    } as DrawPrediction);
 
-    return drawPreds;
+    return [
+      ...predCalculator.computeDrawPredictions(),
+      { playerPredictions: predCalculator.computeLatest() },
+    ];
   }
 
   private extractPlayerIds(draw: TournamentDraw): Set<string> {

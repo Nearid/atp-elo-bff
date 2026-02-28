@@ -1,4 +1,4 @@
-import { Round } from '../shared/enums/round.enum';
+import { Round } from '../../shared/enums/round.enum';
 
 export class PlayerDrawPrediction {
   playerId: string;

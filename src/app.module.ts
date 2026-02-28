@@ -2,17 +2,19 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PlayerController } from './player/player.controller';
-import { PlayerService } from './player/player.service';
 import { Player } from './player/player.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TournamentDrawRepository } from './draw/tournament-draw.repository';
+import { TournamentDrawRepository } from './draw/repositories/tournament-draw.repository';
 import { EloRating } from './elorating/elorating.entity';
-import { DrawPredictionService } from './draw/draw-prediction.service';
+import { DrawPredictionService } from './draw/services/draw-prediction.service';
 import { DrawController } from './draw/draw.controller';
 import { EloratingRepository } from './elorating/elorating.repository';
-import { TournamentDraw } from './draw/tournament-draw.entity';
-import { TournamentDrawMatch } from './draw/tournament-draw-match.entity';
+import { TournamentDraw } from './draw/entities/tournament-draw.entity';
+import { TournamentDrawMatch } from './draw/entities/tournament-draw-match.entity';
+import { PlayerRepository } from './player/player.repository';
+import { PlayerService } from './player/player.service';
+import { TournamentDrawService } from './draw/services/tournament-draw.service';
+import { TournamentDrawMatchRepository } from './draw/repositories/tournament-draw-match.repository';
 
 @Module({
   imports: [
@@ -38,12 +40,15 @@ import { TournamentDrawMatch } from './draw/tournament-draw-match.entity';
       }),
     }),
   ],
-  controllers: [PlayerController, DrawController],
+  controllers: [DrawController],
   providers: [
     PlayerService,
     TournamentDrawRepository,
     DrawPredictionService,
     EloratingRepository,
+    PlayerRepository,
+    TournamentDrawService,
+    TournamentDrawMatchRepository,
   ],
 })
 export class AppModule {}

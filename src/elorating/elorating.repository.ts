@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { EloRating } from './elorating.entity';
-import { PlayerRatingDto } from '../draw/player-rating.dto';
+import { PlayerRatingDto } from '../draw/models/player-rating.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
